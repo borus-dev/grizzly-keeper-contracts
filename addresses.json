@@ -1,0 +1,24 @@
+{
+  "accounts": {
+    "mainnet": {
+      "publicKey": "0xfeb4acf3df3cdea7399794d0869ef76a6efaff52",
+      "keep3rGovernance": "0x0D5Dc686d0a2ABBfDaFDFb4D0533E886517d4E83",
+      "keeper": "0x99B2C5D50086b02f83E791633C5660fbb8344653",
+      "keep3r": "0xeb02addCfD8B773A5FFA6B9d1FE99c566f8c44CC",
+      "multiSig": "0xcE88F73FAA2C8de5fdE0951A6b80583af4C14265",
+      "yfiMultiSig": "0xFEB4acf3df3cDEA7399794D0869ef76A6EfAff52"
+    }
+  },
+  "contracts": {
+    "mainnet": {
+      "keep3rV1Helper": "0x24e1565ED1D6530cd977A6A8B3e327b9F53A9fd2",
+      "keep3r": "0xeb02addCfD8B773A5FFA6B9d1FE99c566f8c44CC",
+      "lpToken": "0x3f6740b5898c5D3650ec6eAce9a649Ac791e44D7",
+      "governance": "0xfeb4acf3df3cdea7399794d0869ef76a6efaff52",
+      "strategy": "0x6E643824285A6E7786d04021495C4B8dd9E31209",
+      "jobs": {
+        "harvestV2Keep3rJob": "0x3Da70a551C0F785580A291b7d8c7D0F3Dc4c6688"
+      }
+    }
+  }
+}
