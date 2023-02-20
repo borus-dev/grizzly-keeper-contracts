@@ -20,6 +20,7 @@ contract HarvestV2KeeperJob is IV2KeeperJob, Keep3rBondedJob, Pausable {
     mapping(address => uint256) public lastWorkAt;
 
     uint256 public workCooldown;
+    uint256 public baseFeeThreshold;
 
     constructor(address _governor) Governable(_governor) {
         workCooldown = 7 days;
@@ -30,6 +31,8 @@ contract HarvestV2KeeperJob is IV2KeeperJob, Keep3rBondedJob, Pausable {
         requiredMinBond = 50 ether;
         requiredEarnings = 0;
         requiredAge = 0;
+
+        baseFeeThreshold = 15 gwei;
     }
 
     // --- Public View Functions --- //
@@ -37,6 +40,7 @@ contract HarvestV2KeeperJob is IV2KeeperJob, Keep3rBondedJob, Pausable {
     /// @inheritdoc IV2KeeperJob
     function workable(address _strategy) public view returns (bool _isWorkable) {
         if (!_workable(_strategy)) return false;
+        if (_gasPrice() > baseFeeThreshold) return false;
         return IBaseStrategy(_strategy).harvestTrigger(_getCallCosts(_strategy));
     }
 
@@ -64,6 +68,10 @@ contract HarvestV2KeeperJob is IV2KeeperJob, Keep3rBondedJob, Pausable {
     /// @inheritdoc IV2KeeperJob
     function setWorkCooldown(uint256 _workCooldown) external onlyGovernor {
         _setWorkCooldown(_workCooldown);
+    }
+
+    function setBaseFeeThreshold(uint256 _baseFeeThreshold) external onlyGovernor {
+        _setBaseFeeThreshold(_baseFeeThreshold);
     }
 
     /// @inheritdoc IV2KeeperJob
@@ -116,6 +124,11 @@ contract HarvestV2KeeperJob is IV2KeeperJob, Keep3rBondedJob, Pausable {
     function _setWorkCooldown(uint256 _workCooldown) internal {
         if (_workCooldown == 0) revert ZeroCooldown();
         workCooldown = _workCooldown;
+    }
+
+    function _setBaseFeeThreshold(uint256 _baseFeeThreshold) internal {
+        require(_baseFeeThreshold != 0, "zeroAmount");
+        baseFeeThreshold = _baseFeeThreshold;
     }
 
     function _addStrategy(address _strategy, uint256 _requiredAmount) internal {
